@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") + "?sslaccept=strict"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  Avaliacoes Avaliacao[]
+}
+
+model Avaliacao {
+  id          String   @id @default(uuid())
+  propriedade String
+  data        DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  pontuacao   Int
+  classificacaoAmbiental String
+  classificacaoSocial    String
+  classificacaoGovernanca String
+  respostas   Json
+}
